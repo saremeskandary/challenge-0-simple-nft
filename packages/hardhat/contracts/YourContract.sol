@@ -13,7 +13,7 @@ contract YourCollectible is
 	ERC721URIStorage,
 	Ownable
 {
-	uint256 private _nextTokenId;
+	uint256 public tokenIdCounter;
 
 	constructor() ERC721("YourCollectible", "YCB") Ownable(msg.sender) {}
 
@@ -22,7 +22,7 @@ contract YourCollectible is
 	}
 
 	function safeMint(address to, string memory uri) public onlyOwner {
-		uint256 tokenId = _nextTokenId++;
+		uint256 tokenId = tokenIdCounter++;
 		_safeMint(to, tokenId);
 		_setTokenURI(tokenId, uri);
 	}
