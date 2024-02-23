@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
+// Compatible with OpenZeppelin Contracts ^5.0.0
 pragma solidity ^0.8.20; //Do not change the solidity version as it negatively impacts submission grading
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract YourCollectible is
 	ERC721,
@@ -13,38 +13,35 @@ contract YourCollectible is
 	ERC721URIStorage,
 	Ownable
 {
-	using Counters for Counters.Counter;
+	uint256 private _nextTokenId;
 
-	Counters.Counter public tokenIdCounter;
-
-	constructor() ERC721("YourCollectible", "YCB") {}
+	constructor() ERC721("YourCollectible", "YCB") Ownable(msg.sender) {}
 
 	function _baseURI() internal pure override returns (string memory) {
 		return "https://ipfs.io/ipfs/";
 	}
 
-	function mintItem(address to, string memory uri) public returns (uint256) {
-		tokenIdCounter.increment();
-		uint256 tokenId = tokenIdCounter.current();
+	function safeMint(address to, string memory uri) public onlyOwner {
+		uint256 tokenId = _nextTokenId++;
 		_safeMint(to, tokenId);
 		_setTokenURI(tokenId, uri);
-		return tokenId;
 	}
 
 	// The following functions are overrides required by Solidity.
 
-	function _beforeTokenTransfer(
-		address from,
+	function _update(
 		address to,
-		uint256 tokenId
-	) internal override(ERC721, ERC721Enumerable) {
-		super._beforeTokenTransfer(from, to, tokenId);
+		uint256 tokenId,
+		address auth
+	) internal override(ERC721, ERC721Enumerable) returns (address) {
+		return super._update(to, tokenId, auth);
 	}
 
-	function _burn(
-		uint256 tokenId
-	) internal override(ERC721, ERC721URIStorage) {
-		super._burn(tokenId);
+	function _increaseBalance(
+		address account,
+		uint128 value
+	) internal override(ERC721, ERC721Enumerable) {
+		super._increaseBalance(account, value);
 	}
 
 	function tokenURI(
@@ -55,7 +52,12 @@ contract YourCollectible is
 
 	function supportsInterface(
 		bytes4 interfaceId
-	) public view override(ERC721, ERC721Enumerable) returns (bool) {
+	)
+		public
+		view
+		override(ERC721, ERC721Enumerable, ERC721URIStorage)
+		returns (bool)
+	{
 		return super.supportsInterface(interfaceId);
 	}
 }

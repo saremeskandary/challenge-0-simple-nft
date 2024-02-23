@@ -31,7 +31,7 @@ describe("🚩 Challenge 0: 🎟 Simple NFT Example 🤓", function () {
       });
     }
 
-    describe("mintItem()", function () {
+    describe("safeMint()", function () {
       it("Should be able to mint an NFT", async function () {
         const [owner] = await ethers.getSigners();
 
@@ -41,7 +41,7 @@ describe("🚩 Challenge 0: 🎟 Simple NFT Example 🤓", function () {
         console.log("\t", " ⚖️ Starting balance: ", startingBalance.toNumber());
 
         console.log("\t", " 🔨 Minting...");
-        const mintResult = await myContract.mintItem(owner.address, "QmfVMAmNM1kDEBYrC2TPzQDoCRFH6F5tE1e9Mr4FkkR5Xr");
+        const mintResult = await myContract.safeMint(owner.address, "QmfVMAmNM1kDEBYrC2TPzQDoCRFH6F5tE1e9Mr4FkkR5Xr");
         console.log("\t", " 🏷  mint tx: ", mintResult.hash);
 
         console.log("\t", " ⏳ Waiting for confirmation...");
