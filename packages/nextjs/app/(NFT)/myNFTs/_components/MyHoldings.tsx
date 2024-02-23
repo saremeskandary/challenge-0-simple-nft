@@ -14,6 +14,7 @@ export interface Collectible extends Partial<NFTMetaData> {
   owner: string;
 }
 
+// FIXME can not read the data
 export const MyHoldings = () => {
   const { address: connectedAddress } = useAccount();
   const [myAllCollectibles, setMyAllCollectibles] = useState<Collectible[]>([]);
@@ -52,7 +53,6 @@ export const MyHoldings = () => {
 
           const nftMetadata: NFTMetaData = await getNFTMetadataFromIPFS(ipfsHash);
 
-          if (!tokenId) return;
           collectibleUpdate.push({
             id: parseInt(tokenId.toString()),
             uri: tokenURI as string,
