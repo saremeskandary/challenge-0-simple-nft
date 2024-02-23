@@ -21,7 +21,7 @@ contract YourCollectible is
 		return "https://ipfs.io/ipfs/";
 	}
 
-	function safeMint(address to, string memory uri) public onlyOwner {
+	function safeMint(address to, string memory uri) public {
 		uint256 tokenId = tokenIdCounter++;
 		_safeMint(to, tokenId);
 		_setTokenURI(tokenId, uri);
