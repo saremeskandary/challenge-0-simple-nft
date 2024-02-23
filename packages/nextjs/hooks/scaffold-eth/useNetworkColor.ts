@@ -1,3 +1,5 @@
+"use client";
+
 import { useTargetNetwork } from "./useTargetNetwork";
 import { useTheme } from "next-themes";
 import { ChainWithAttributes } from "~~/utils/scaffold-eth";
