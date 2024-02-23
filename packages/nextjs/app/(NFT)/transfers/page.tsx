@@ -1,3 +1,5 @@
+"use client";
+
 import type { NextPage } from "next";
 import { MetaHeader } from "~~/components/MetaHeader";
 import { Spinner } from "~~/components/Spinner";

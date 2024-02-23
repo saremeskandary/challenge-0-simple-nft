@@ -1,3 +1,5 @@
+"use client";
+
 import { MyHoldings } from "./_components";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
